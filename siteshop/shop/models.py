@@ -10,7 +10,6 @@ STATUS = (
 
 
 class Product(models.Model):
-
     name = models.CharField(max_length=150, verbose_name="Название")
     slug = models.SlugField(unique=True, verbose_name="URL")
     description = models.TextField(max_length=500, verbose_name="Описание", blank=True)
@@ -56,10 +55,9 @@ class Delivery(models.Model):
 
 class Order(models.Model):
 
-    product = models.ForeignKey(Product, verbose_name="Товар")
-    count_product = models.IntegerField(verbose_name="Кол-во товара",
-                                        default=1, validators=[MinValueValidator(1), MaxValueValidator(50)])
-    delivery = models.ForeignKey(Delivery, verbose_name="Доставка")
+    product = models.ForeignKey(Product, verbose_name="Товар", on_delete=models.PROTECT)
+    count_product = models.IntegerField(verbose_name="Кол-во товара", default=1, validators=[MinValueValidator(1), MaxValueValidator(50)])
+    delivery = models.ForeignKey(Delivery, verbose_name="Доставка", on_delete=models.PROTECT)
     status = models.CharField(max_length=20, choices=STATUS, default=STATUS[0][0], verbose_name='Статус')
     name_client = models.CharField(max_length=150, verbose_name="Имя клиента")
     phone_client = models.CharField(max_length=150, verbose_name="Телефон клиента")
